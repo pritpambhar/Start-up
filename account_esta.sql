@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2019 at 07:20 PM
+-- Generation Time: Jul 25, 2019 at 06:40 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -136,7 +136,15 @@ INSERT INTO `customer_bill_history` (`bill_id`, `customer_id`, `product_id`, `bi
 (99, 14, 5, 340, 400, 136000, 46, '2019-07-21'),
 (100, 4, 5, 34, 560, 19040, 47, '2019-07-21'),
 (101, 13, 4, 134, 23, 3082, 48, '2019-07-21'),
-(102, 13, 5, 345, 34, 11730, 49, '2019-07-21');
+(102, 13, 5, 345, 34, 11730, 49, '2019-07-21'),
+(103, 3, 3, 34, 345, 11730, 50, '2019-07-24'),
+(104, 3, 6, 34, 678, 23052, 50, '2019-07-24'),
+(105, 1, 3, 23, 23, 529, 51, '2019-07-25'),
+(106, 1, 4, 3232, 323, 1043936, 51, '2019-07-25'),
+(107, 1, 5, 232, 232, 53824, 51, '2019-07-25'),
+(108, 3, 4, 23, 322, 7406, 52, '2019-07-25'),
+(109, 3, 5, 321, 324, 104004, 52, '2019-07-25'),
+(110, 3, 6, 232, 3232, 749824, 52, '2019-07-25');
 
 -- --------------------------------------------------------
 
@@ -227,7 +235,10 @@ INSERT INTO `invoice_master` (`invoice_id`, `customer_id`, `invoice_date`, `invo
 (46, 14, '2019-07-21', 186600, 86000, 100600),
 (47, 4, '2019-07-21', 19040, 1789, 17251),
 (48, 13, '2019-07-21', 3082, 2342, 740),
-(49, 13, '2019-07-21', 11730, 43, 11686);
+(49, 13, '2019-07-21', 11730, 43, 11686),
+(50, 3, '2019-07-24', 34782, 34000, 782),
+(51, 1, '2019-07-25', 1098289, 232213, 866076),
+(52, 3, '2019-07-25', 861234, 32321, 828913);
 
 -- --------------------------------------------------------
 
@@ -275,6 +286,30 @@ CREATE TABLE `supplier_master` (
 INSERT INTO `supplier_master` (`supplier_id`, `supplier_name`, `supplier_mobile`, `supplier_city`) VALUES
 (1, 'supply-a', '7567163164', 'rajkot');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction_master`
+--
+
+CREATE TABLE `transaction_master` (
+  `transaction_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `transaction_date` date NOT NULL,
+  `credit` int(11) NOT NULL,
+  `invoice_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaction_master`
+--
+
+INSERT INTO `transaction_master` (`transaction_id`, `customer_id`, `transaction_date`, `credit`, `invoice_id`) VALUES
+(1, 3, '2019-07-25', 0, NULL),
+(9, 3, '2019-07-25', 2343, NULL),
+(10, 4, '2019-07-25', 400, NULL),
+(11, 1, '2019-07-25', 3780, NULL);
+
 --
 -- Indexes for dumped tables
 --
@@ -315,6 +350,13 @@ ALTER TABLE `supplier_master`
   ADD PRIMARY KEY (`supplier_id`);
 
 --
+-- Indexes for table `transaction_master`
+--
+ALTER TABLE `transaction_master`
+  ADD PRIMARY KEY (`transaction_id`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -322,7 +364,7 @@ ALTER TABLE `supplier_master`
 -- AUTO_INCREMENT for table `customer_bill_history`
 --
 ALTER TABLE `customer_bill_history`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `customer_master`
@@ -349,6 +391,12 @@ ALTER TABLE `supplier_master`
   MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `transaction_master`
+--
+ALTER TABLE `transaction_master`
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -371,6 +419,12 @@ ALTER TABLE `invoice_master`
 --
 ALTER TABLE `product_master`
   ADD CONSTRAINT `product_master_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier_master` (`supplier_id`);
+
+--
+-- Constraints for table `transaction_master`
+--
+ALTER TABLE `transaction_master`
+  ADD CONSTRAINT `transaction_master_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer_master` (`customer_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
